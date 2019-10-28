@@ -1,0 +1,39 @@
+{% extends 'mini_sns/layout.html' %}
+
+{% block title %}Groups{% endblock %}
+
+{% block header %}
+    <h1>Group</h1>
+    <p class="caption">＊グループを選択してselect memberすると、利用者ONになる。set memberすると、ONの利用者がグループに追加される</p>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li {% if message.tags %} class="{{ message.tags }}"
+            {% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+{% endblock%}
+
+{% block content %}
+<form action="{% url 'groups' %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="mode" value="__groups_form__">
+    {{groups_form}}
+    <button>メンバーを選択</button>
+</form>
+<hr>
+<form action="{% url 'groups' %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="mode" value="__friends_form__">
+    {{friends_form}}
+    <button>メンバーを追加</button>
+</form>
+<hr>
+<p>＊新しいグループの登録</p>
+<form action="{% url 'creategroup' %}" method="post">
+    {% csrf_token %}
+    {{create_form}}
+    <button>グループを作成</button>
+</form>
+{% endblock %}
